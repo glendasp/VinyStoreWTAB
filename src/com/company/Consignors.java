@@ -42,7 +42,7 @@ public class Consignors extends JFrame{
         Class.forName(JDBC_DRIVER);   //Instantiate the driver class
 
         final Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER, PASSWORD);  //Create a connection to DB
-        Statement statement = connection.createStatement();
+        final Statement statement = connection.createStatement();
         //setContentPane(tabConsignorsJPanel);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,10 +53,15 @@ public class Consignors extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    String createConsignorTable = "CREATE TABLE IF NOT EXISTS Consignor (ConsignorsID int NOT NULL AUTO_INCREMENT," +
+                            " Name VARCHAR(45) NOT NULL, TelephoneNum VARCHAR(13)  NULL, Address VARCHAR(45)  NULL, " +
+                            "ZipCode VARCHAR(7)  NULL, City VARCHAR(45)  NULL, State VARCHAR(2) NULL, PRIMARY KEY (ConsignorsID))";
+
+                    statement.executeUpdate(createConsignorTable);
                     String consignorName = textFieldName.getText();
-                    String newConsignorSQLString = "INSERT INTO Consignor VALUE (1,?)";
+                    String newConsignorSQLString = "INSERT INTO Consignor (Name) VALUES (?)";
                     PreparedStatement psInsert = connection.prepareStatement(newConsignorSQLString);
-                    psInsert.setString('1', "?");
+                    psInsert.setString(1, consignorName);
                     psInsert.executeUpdate();
                     connection.close();
 
@@ -64,7 +69,7 @@ public class Consignors extends JFrame{
                     JOptionPane.showMessageDialog(tabConsignorsJPanel, "Your new consignor was successfully saved!");
 
                 }catch (SQLException sqle){
-
+                    System.out.println(sqle.getMessage());
                 }
             }
         });
