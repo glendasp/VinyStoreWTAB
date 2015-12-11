@@ -1,4 +1,4 @@
-package com.company;
+package com.glenda;
 
 import javax.swing.*;
 
@@ -21,7 +21,7 @@ public class Form extends JFrame {
         //Create a a JTabbedPanel, add to JPanel, add tabs to JTabbedPane.
         tabbedPane = new JTabbedPane();
         rootPanel.add(tabbedPane);
-        tabbedPane.add("Consignors", new Consignors().getPanel());
+        tabbedPane.add("Consignors", new Consignors(DBManager.consignorModel).getPanel());
         tabbedPane.add("Inventory", new Inventory().getPanel());
         tabbedPane.add("Sales", new Sales().getPanel());
         setVisible(true);
