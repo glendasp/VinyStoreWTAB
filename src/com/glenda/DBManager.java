@@ -17,6 +17,7 @@ public class DBManager {
     static ResultSet rs = null;
 
     static ConsignorModel consignorModel = null;
+    static InventoryModel inventoryModel = null;
 
 
 
@@ -39,6 +40,12 @@ public class DBManager {
                     "ZipCode VARCHAR(7)  NULL, City VARCHAR(45)  NULL, State VARCHAR(2) NULL, AmountPaid FLOAT, PRIMARY KEY (ConsignorsID))";
 
             Statement.executeUpdate(createConsignorTable);
+
+            String createInventoryTable = "CREATE TABLE IF NOT EXISTS Inventory (RecordID INT NOT NULL AUTO_INCREMENT, RecordTitle VARCHAR(45) NULL, " +
+                    "ArtistNAme VARCHAR(45) NULL, Year VARCHAR(45) NULL, DateRecieved VARCHAR(45) NULL, PRIMARY KEY (RecordID), " +
+                    "UNIQUE INDEX RecordID_UNIQUE (RecordID ASC))";
+            Statement.executeUpdate(createInventoryTable);
+
             return true;
 
 
@@ -73,7 +80,7 @@ public class DBManager {
             return true;
 
         } catch (Exception e) {
-            System.out.println("Error loading or reloading movies");
+            System.out.println("Error loading or reloading consignors");
             System.out.println(e);
             e.printStackTrace();
             return false;
@@ -106,6 +113,35 @@ public class DBManager {
         return false;
     }
 
+    public static boolean loadAllInventory(){
+
+        try{
+
+            if (rs!=null) {
+                rs.close();
+            }
+
+            String getAllData = "SELECT * FROM Inventory";
+            rs = Statement.executeQuery(getAllData);
+
+            if (inventoryModel == null) {
+                //If no current movieDataModel, then make one
+                inventoryModel = new InventoryModel(rs);
+            } else {
+                //Or, if one already exists, update its ResultSet
+                inventoryModel.updateResultSet(rs);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading inventory");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+
+    }
     public static void addInventory(String record, String artist){
         try{
             String newInventorySQLString = "INSERT INTO Inventory (RecordTitle, ArtistName) VALUES (?,?)";

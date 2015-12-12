@@ -81,7 +81,11 @@ public class ConsignorModel extends AbstractTableModel {
             resultSet.absolute(row+1);
             Object o = resultSet.getObject(col+1);
             System.out.println(o);
-            return o.toString();
+            if(o == null) {
+                return "";
+            } else {
+                return o.toString();
+            }
 
         }catch (SQLException se) {
             System.out.println(se);
