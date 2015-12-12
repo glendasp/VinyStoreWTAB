@@ -18,7 +18,7 @@ public class Form extends JFrame {
     public Form() throws Exception {
         setContentPane(rootPanel);
 
-        //Create a a JTabbedPanel, add to JPanel, add tabs to JTabbedPane.
+        //Create a JTabbedPanel, add to JPanel, add tabs to JTabbedPane.
         tabbedPane = new JTabbedPane();
         rootPanel.add(tabbedPane);
         setTitle(" Database Application");

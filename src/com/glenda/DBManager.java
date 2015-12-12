@@ -8,7 +8,7 @@ public class DBManager {
 
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  //Configure the driver needed
-    static final String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/Store"; //Connection string – where's the database?
+    static final String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/Store"; //Connection string
     static final String USER = "root";   //TODO replace with your username
     static final String PASSWORD = "zc4174by";   //TODO replace with your password
 
@@ -57,7 +57,7 @@ public class DBManager {
         return false;
     }
 
-    //Create or recreate a ResultSet containing the whole database, and give it to movieDataModel
+    //Create or recreate a ResultSet containing the whole database
     public static boolean loadAllConsignors(){
 
         try{

@@ -1,17 +1,11 @@
 package com.glenda;
 
-import com.mysql.jdbc.MySQLConnection;
-import com.mysql.jdbc.UpdatableResultSet;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 
-/**
- * Created by admin on 5/6/15.
- */
 public class Consignors extends JFrame{
     private JPanel tabConsignorsJPanel;
     private JTextField textFieldName;
@@ -84,7 +78,7 @@ public class Consignors extends JFrame{
 
 
 
-                //get the new consigner model (updated one)
+                //get the new consignor model (updated one)
                 DBManager.loadAllConsignors();
                 ConsignorModel cmNew = DBManager.consignorModel;
                 //assign it to the table
@@ -113,6 +107,5 @@ public class Consignors extends JFrame{
 
 
     //private void createUIComponents() {
-        // TODO: place custom component creation code here
     //}
 }
