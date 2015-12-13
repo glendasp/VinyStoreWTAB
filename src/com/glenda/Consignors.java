@@ -25,7 +25,6 @@ public class Consignors extends JFrame{
     private JComboBox comboBoxState;
     private JButton quitButton;
     private JButton AddNewCon;
-    private JButton editButton;
     private JButton deleteButton;
     private JTable ConsignorTable;
     private JScrollPane JScrollConsignor;
@@ -49,21 +48,22 @@ public class Consignors extends JFrame{
         pack();
 
         //Event handlers for add, delete and quit buttons
-        saveButton.addActionListener(new ActionListener() {
-                                         @Override
-                                         public void actionPerformed(ActionEvent e) {
+        saveButton.addActionListener
+                (new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
 
-                                             //Get Movie title, make sure it's not blank
-                                             String titleData = textFieldName.getText();
+                        //Get Movie title, make sure it's not blank
+                        String titleData = textFieldName.getText();
 
-                                             if (textFieldName == null || textFieldName.equals("")) {
-                                                 JOptionPane.showMessageDialog(rootPane, "Please enter a Name");
-                                                 return;
-                                             }
+                        if (textFieldName == null || textFieldName.equals("")) {
+                            JOptionPane.showMessageDialog(rootPane, "Please enter a Name");
+                            return;
+                        }
 
 
-                                         }
-                                     });
+                    }
+                });
 
 
         //Configurando botão SaveNewConsignor para enviar novo cdastro para a DB.
@@ -77,7 +77,9 @@ public class Consignors extends JFrame{
                 JOptionPane.showMessageDialog(tabConsignorsJPanel, "New consignor was successfully saved!");
 
 
-
+                //ResultSet rs = DBManager.Statement.executeQuery(getAllData);
+                //DBManager.consignorModel.updateResultSet(rs);
+                DBManager.consignorModel.fireTableDataChanged();
                 //get the new consignor model (updated one)
                 DBManager.loadAllConsignors();
                 ConsignorModel cmNew = DBManager.consignorModel;
@@ -85,8 +87,7 @@ public class Consignors extends JFrame{
                 ConsignorTable.setModel(cmNew);
                 //pack
                 pack();
-
-
+                System.out.println("Row was added - I did it!!!!!!!!YAY :)");
             }
 
 
@@ -97,15 +98,27 @@ public class Consignors extends JFrame{
                     System.exit(0);
             }
         });
-    }
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int currentRow = ConsignorTable.getSelectedRow();
 
+                if (currentRow == -1) {      // -1 means no row is selected. Display error message.
+                    JOptionPane.showMessageDialog(rootPane, "Please choose a movie to delete");
+                }
+                boolean deleted = ConsignorModel.deleteRow(currentRow);
+                if (deleted) {
+                    DBManager.loadAllConsignors();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Error deleting movie");
+                }
+            }
+        });
+    }
 
 
     public  JPanel getPanel(){
         return tabConsignorsJPanel;
     }
 
-
-    //private void createUIComponents() {
-    //}
 }

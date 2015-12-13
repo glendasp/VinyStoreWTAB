@@ -67,6 +67,8 @@ public class DBManager {
             }
 
             String getAllData = "SELECT * FROM Consignor";
+
+
             rs = Statement.executeQuery(getAllData);
 
             if (consignorModel == null) {

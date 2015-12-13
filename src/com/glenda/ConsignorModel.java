@@ -4,6 +4,7 @@ package com.glenda;
  * Created by glendex on 12/10/15.
  */
 
+
 import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +15,7 @@ public class ConsignorModel extends AbstractTableModel {
 
     private int rowCount = 0;
     private int colCount = 0;
-    ResultSet resultSet;
+    static ResultSet resultSet;
 
 
     public ConsignorModel(ResultSet rs) {
@@ -29,7 +30,7 @@ public class ConsignorModel extends AbstractTableModel {
 
         try{
             colCount = resultSet.getMetaData().getColumnCount();
-            System.out.println("We got this far");
+            System.out.println("Got this far");
 
         } catch (SQLException se) {
             System.out.println("Error counting columns" + se);
@@ -47,15 +48,12 @@ public class ConsignorModel extends AbstractTableModel {
 
     private void countRows() {
         rowCount = 0;
-        try {
-            //Move cursor to the start...
-            resultSet.beforeFirst();
+        try { resultSet.beforeFirst();  //Move cursor to the start...
             // next() method moves the cursor forward one row and returns true if there is another row ahead
             while (resultSet.next()) {
                 rowCount++;
 
-            }
-            resultSet.beforeFirst();
+            } resultSet.beforeFirst();
 
         } catch (SQLException se) {
             System.out.println("Error counting rows " + se);
@@ -65,7 +63,7 @@ public class ConsignorModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         countRows();
-        System.out.println(rowCount);
+        //System.out.println(rowCount);
         return rowCount;
     }
 
@@ -77,16 +75,15 @@ public class ConsignorModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int col){
         try{
-            //System.out.println("get value at, row = " +row);
+            //Conta quantidades de linhas
             resultSet.absolute(row+1);
             Object o = resultSet.getObject(col+1);
             System.out.println(o);
-            if(o == null) {
+            if(o == null) {  // If one of the fields are empty (null) it will replace for space so that it does not crash.
                 return "";
             } else {
                 return o.toString();
             }
-
         }catch (SQLException se) {
             System.out.println(se);
             //se.printStackTrace();
@@ -97,12 +94,12 @@ public class ConsignorModel extends AbstractTableModel {
 
 
     //Delete row, return true if successful, false otherwise
-    public boolean deleteRow(int row){
+    public static boolean deleteRow(int row){
         try {
             resultSet.absolute(row + 1);
             resultSet.deleteRow();
             //Tell table to redraw itself
-            fireTableDataChanged();
+            //fireTableDataChanged();
             return true;
         }catch (SQLException se) {
             System.out.println("Delete row error " + se);
@@ -110,27 +107,6 @@ public class ConsignorModel extends AbstractTableModel {
         }
     }
 
-    //returns true if successful, false if error occurs
-    public boolean insertRow(String name, int year, int rating) {
-
-        try {
-            //Move to insert row, insert the appropriate data in each column, insert the row, move cursor back to where it was before we started
-            resultSet.moveToInsertRow();
-            resultSet.updateString("Name", name);
-            //resultSet.updateInt("", year);
-            //resultSet.updateInt(RATING_COLUMN, rating);
-            resultSet.insertRow();
-            resultSet.moveToCurrentRow();
-            fireTableDataChanged();
-            return true;
-
-        } catch (SQLException e) {
-            System.out.println("Error adding row");
-            System.out.println(e);
-            return false;
-        }
-
-    }
 
     @Override
     public String getColumnName(int col){
@@ -143,7 +119,5 @@ public class ConsignorModel extends AbstractTableModel {
             return "?";
         }
     }
-
-
 }
 
