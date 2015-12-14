@@ -37,9 +37,7 @@ public class Consignors extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(false);
         setTitle(" Database Consignor");
-
         DBManager.setup();
-
         ConsignorTable.setModel(cm);
         //Set up JTable
         ConsignorTable.setGridColor(Color.BLACK);
@@ -52,16 +50,13 @@ public class Consignors extends JFrame{
                 (new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
                         //Get Movie title, make sure it's not blank
-                        String titleData = textFieldName.getText();
+                        String textFieldNameText = textFieldName.getText();
 
                         if (textFieldName == null || textFieldName.equals("")) {
                             JOptionPane.showMessageDialog(rootPane, "Please enter a Name");
                             return;
                         }
-
-
                     }
                 });
 
@@ -92,33 +87,45 @@ public class Consignors extends JFrame{
 
 
         });
+
+        //Fecha a tela e finaliza o progama - Nada para adicionar aqui ou alterar
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { // Definindo ação para o botão quit - que ao clicar, fecha a janela
                     System.exit(0);
             }
         });
+
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int currentRow = ConsignorTable.getSelectedRow();
+                // DBManager.consignorModel.fireTableRowsDeleted();
+                DBManager.loadAllConsignors();
+                ConsignorModel cmNew = DBManager.consignorModel;
 
-                if (currentRow == -1) {      // -1 means no row is selected. Display error message.
-                    JOptionPane.showMessageDialog(rootPane, "Please choose a movie to delete");
+
+//                if (currentRow == -1) {      // -1 means no row is selected. Display error message.
+//                    JOptionPane.showMessageDialog(rootPane, "Please choose a consignor to delete");
+//                }
+//                boolean deleted = ConsignorModel.deleteRow(currentRow);
+//                if (deleted) {
+//                    DBManager.loadAllConsignors();
+//                } else {
+//                    JOptionPane.showMessageDialog(rootPane, "Error deleting");
+//                }
                 }
-                boolean deleted = ConsignorModel.deleteRow(currentRow);
-                if (deleted) {
-                    DBManager.loadAllConsignors();
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Error deleting movie");
-                }
+            });
+        }
+
+
+            public JPanel getPanel() {
+                return tabConsignorsJPanel;
             }
-        });
-    }
 
 
-    public  JPanel getPanel(){
-        return tabConsignorsJPanel;
-    }
+        }
 
-}
+
+
+

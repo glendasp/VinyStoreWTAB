@@ -30,7 +30,7 @@ public class ConsignorModel extends AbstractTableModel {
 
         try{
             colCount = resultSet.getMetaData().getColumnCount();
-            System.out.println("Got this far");
+            System.out.println("We got this far");
 
         } catch (SQLException se) {
             System.out.println("Error counting columns" + se);
@@ -78,7 +78,7 @@ public class ConsignorModel extends AbstractTableModel {
             //Conta quantidades de linhas
             resultSet.absolute(row+1);
             Object o = resultSet.getObject(col+1);
-            System.out.println(o);
+            //System.out.println(o);
             if(o == null) {  // If one of the fields are empty (null) it will replace for space so that it does not crash.
                 return "";
             } else {
@@ -90,7 +90,6 @@ public class ConsignorModel extends AbstractTableModel {
             return se.toString();
         }
     }
-
 
 
     //Delete row, return true if successful, false otherwise

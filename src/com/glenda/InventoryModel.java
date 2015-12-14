@@ -45,14 +45,11 @@ public class InventoryModel extends AbstractTableModel {
         private void countRows() {
             rowCount = 0;
             try {
-                //Move cursor to the start...
-                resultSet.beforeFirst();
-                // next() method moves the cursor forward one row and returns true if there is another row ahead
-                while (resultSet.next()) {
+                resultSet.beforeFirst();// leva o cursor para o inicio
+                while (resultSet.next()) { // next() method moves the cursor forward one row and returns true if there is another row ahead
                     rowCount++;
                 }
                 resultSet.beforeFirst();
-
             } catch (SQLException se) {
                 System.out.println("Error counting rows " + se);
             }
@@ -89,8 +86,6 @@ public class InventoryModel extends AbstractTableModel {
                 return se.toString();
             }
         }
-
-
 
         //Delete row, return true if successful, false otherwise
         public boolean deleteRow(int row){

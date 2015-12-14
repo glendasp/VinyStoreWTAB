@@ -35,25 +35,33 @@ public class DBManager {
         }
 
         try {
-            String createConsignorTable = "CREATE TABLE IF NOT EXISTS Consignor (ConsignorsID int NOT NULL AUTO_INCREMENT," +
-                    " Name VARCHAR(45) NOT NULL, TelephoneNum VARCHAR(13)  NULL, Address VARCHAR(45)  NULL, " +
-                    "ZipCode VARCHAR(7)  NULL, City VARCHAR(45)  NULL, State VARCHAR(2) NULL, AmountPaid FLOAT, PRIMARY KEY (ConsignorsID))";
-
+            String createConsignorTable = "CREATE TABLE IF NOT EXISTS Consignor " +
+                    "(ConsignorsID int NOT NULL AUTO_INCREMENT," +
+                    "Name VARCHAR(45) NOT NULL, " +
+                    "TelephoneNum VARCHAR(13)  NULL, " +
+                    "Address VARCHAR(45)  NULL, " +
+                    "ZipCode VARCHAR(7)  NULL, " +
+                    "City VARCHAR(45)  NULL, " +
+                    "State VARCHAR(2) NULL, " +
+                    "AmountPaid DECIMAL(6,2), " +
+                    "PRIMARY KEY (ConsignorsID))";
             Statement.executeUpdate(createConsignorTable);
 
-            String createInventoryTable = "CREATE TABLE IF NOT EXISTS Inventory (RecordID INT NOT NULL AUTO_INCREMENT, RecordTitle VARCHAR(45) NULL, " +
-                    "ArtistNAme VARCHAR(45) NULL, Year VARCHAR(45) NULL, DateRecieved VARCHAR(45) NULL, PRIMARY KEY (RecordID), " +
+            String createInventoryTable = "CREATE TABLE IF NOT EXISTS Inventory " +
+                    "(RecordID INT NOT NULL AUTO_INCREMENT, " +
+                    "RecordTitle VARCHAR(45) NULL, " +
+                    "ArtistNAme VARCHAR(45) NULL, " +
+                    "DateRecieved DATE NULL, " +
+                    "PRIMARY KEY (RecordID), " +
                     "UNIQUE INDEX RecordID_UNIQUE (RecordID ASC))";
             Statement.executeUpdate(createInventoryTable);
 
             return true;
 
-
         //Imprime um mensagem com o erro que foi gerado caso gere erro sqlexception
         } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }
-
         return false;
     }
 
@@ -67,7 +75,6 @@ public class DBManager {
             }
 
             String getAllData = "SELECT * FROM Consignor";
-
 
             rs = Statement.executeQuery(getAllData);
 
@@ -166,7 +173,6 @@ public class DBManager {
             PreparedStatement psInsert = Connection.prepareStatement(newSalesSQLString);
             psInsert.setString(1, PriceSold);
             psInsert.setString(2, DateSold);
-
             psInsert.executeUpdate();
 
         } catch (SQLException e) {

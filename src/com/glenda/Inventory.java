@@ -1,10 +1,11 @@
 package com.glenda;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Inventory extends JPanel {
+public class Inventory extends JFrame {
     private JPanel tabInventoryPanel;
     private JTextField textFieldRecordTitle;
     private JTextField textFieldArtistName;
@@ -15,12 +16,25 @@ public class Inventory extends JPanel {
     private JButton quitButton;
     private JComboBox comboBoxLocation;
     private JButton addNewRecordButton;
-    private JList list1;
+    private JTable InventoryTable;
+    private JScrollPane JScrollInventory;
 
 
-    public Inventory( final InventoryModel im) throws  Exception {
+    public Inventory(final InventoryModel im) {
 
-      //  pack();
+        setContentPane(tabInventoryPanel);
+        //pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(false);
+        setTitle(" Database Inventory");
+        DBManager.setup();
+//        InventoryTable.setModel(im);
+        //Set up JTable
+        InventoryTable.setGridColor(Color.BLACK);
+        //ConsignorTable.setModel(cm);
+        JScrollInventory.setMinimumSize(new Dimension(600,200));
+        pack();
+
 
 
         addNewRecordButton.addActionListener(new ActionListener() {
