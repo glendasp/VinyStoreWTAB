@@ -11,7 +11,7 @@ public class InventoryModel extends AbstractTableModel {
 
         private int rowCount = 0;
         private int colCount = 0;
-        ResultSet resultSet;
+        static ResultSet resultSet;
 
 
         public InventoryModel(ResultSet rs) {
@@ -88,12 +88,12 @@ public class InventoryModel extends AbstractTableModel {
         }
 
         //Delete row, return true if successful, false otherwise
-        public boolean deleteRow(int row){
+        public static boolean deleteRow(int row){
             try {
                 resultSet.absolute(row + 1);
                 resultSet.deleteRow();
                 //Tell table to redraw itself
-                fireTableDataChanged();
+                //fireTableDataChanged();
                 return true;
             }catch (SQLException se) {
                 System.out.println("Delete row error " + se);
@@ -101,27 +101,27 @@ public class InventoryModel extends AbstractTableModel {
             }
         }
 
-        //returns true if successful, false if error occurs
-        public boolean insertRow(String name, int year, int rating) {
-
-            try {
-                //Move to insert row, insert the appropriate data in each column, insert the row, move cursor back to where it was before we started
-                resultSet.moveToInsertRow();
-                resultSet.updateString("Name", name);
-                //resultSet.updateInt("", year);
-                //resultSet.updateInt(RATING_COLUMN, rating);
-                resultSet.insertRow();
-                resultSet.moveToCurrentRow();
-                fireTableDataChanged();
-                return true;
-
-            } catch (SQLException e) {
-                System.out.println("Error adding row");
-                System.out.println(e);
-                return false;
-            }
-
-        }
+//        //returns true if successful, false if error occurs
+//        public boolean insertRow(String name, int year, int rating) {
+//
+//            try {
+//                //Move to insert row, insert the appropriate data in each column, insert the row, move cursor back to where it was before we started
+//                resultSet.moveToInsertRow();
+//                resultSet.updateString("Name", name);
+//                //resultSet.updateInt("", year);
+//                //resultSet.updateInt(RATING_COLUMN, rating);
+//                resultSet.insertRow();
+//                resultSet.moveToCurrentRow();
+//                fireTableDataChanged();
+//                return true;
+//
+//            } catch (SQLException e) {
+//                System.out.println("Error adding row");
+//                System.out.println(e);
+//                return false;
+//            }
+//
+//        }
 
         @Override
         public String getColumnName(int col){

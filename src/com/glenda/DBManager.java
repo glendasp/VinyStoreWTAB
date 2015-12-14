@@ -16,6 +16,9 @@ public class DBManager {
     static Connection Connection = null;
     static ResultSet rs = null;
 
+    static ResultSet inventoryResult = null;
+    static Statement invState = null;
+
     static ConsignorModel consignorModel = null;
     static InventoryModel inventoryModel = null;
 
@@ -26,7 +29,8 @@ public class DBManager {
         try {//Here we are catching all the exception.
             Class.forName(JDBC_DRIVER);   //Instantiate the driver class
             Connection = DriverManager.getConnection(DB_CONNECTION_URL, USER, PASSWORD);//Create a connection to DB
-            Statement = Connection.createStatement();
+            Statement = Connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            invState = Connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
         }catch (ClassNotFoundException cfe){
             System.out.println(cfe);
         }catch (SQLException e) {
@@ -55,6 +59,8 @@ public class DBManager {
                     "PRIMARY KEY (RecordID), " +
                     "UNIQUE INDEX RecordID_UNIQUE (RecordID ASC))";
             Statement.executeUpdate(createInventoryTable);
+
+            loadAllInventory();
 
             return true;
 
@@ -110,9 +116,8 @@ public class DBManager {
             psInsert.setString(6, State);
             psInsert.setFloat(7, AmountPaid);
 
-            //// TODO: 12/9/15  ADd more fields
-
             psInsert.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e);
@@ -126,19 +131,19 @@ public class DBManager {
 
         try{
 
-            if (rs!=null) {
-                rs.close();
+            if (inventoryResult!=null) {
+                inventoryResult.close();
             }
 
             String getAllData = "SELECT * FROM Inventory";
-            rs = Statement.executeQuery(getAllData);
+            inventoryResult = invState.executeQuery(getAllData);
 
             if (inventoryModel == null) {
                 //If no current movieDataModel, then make one
-                inventoryModel = new InventoryModel(rs);
+                inventoryModel = new InventoryModel(inventoryResult);
             } else {
                 //Or, if one already exists, update its ResultSet
-                inventoryModel.updateResultSet(rs);
+                inventoryModel.updateResultSet(inventoryResult);
             }
 
             return true;
@@ -151,19 +156,23 @@ public class DBManager {
         }
 
     }
-    public static void addInventory(String record, String artist){
+    public static boolean addInventory(String record, String artist, Date date){
+
         try{
-            String newInventorySQLString = "INSERT INTO Inventory (RecordTitle, ArtistName) VALUES (?,?)";
+            String newInventorySQLString = "INSERT INTO Inventory (RecordTitle, ArtistName, DateRecieved) VALUES (?,?, ?)";
             PreparedStatement psInsert = Connection.prepareStatement(newInventorySQLString);
             psInsert.setString(1, record);
             psInsert.setString(2, artist);
-           // psInsert.setString(3, data);
+            psInsert.setDate(3, date);
 
             psInsert.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(e);
         }
+
+        return false;
 
     }
 

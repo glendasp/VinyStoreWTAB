@@ -41,8 +41,7 @@ public class Consignors extends JFrame{
         ConsignorTable.setModel(cm);
         //Set up JTable
         ConsignorTable.setGridColor(Color.BLACK);
-        //ConsignorTable.setModel(cm);
-        JScrollConsignor.setMinimumSize(new Dimension(600,200));
+        JScrollConsignor.setMinimumSize(new Dimension(600,300));
         pack();
 
         //Event handlers for add, delete and quit buttons
@@ -120,12 +119,9 @@ public class Consignors extends JFrame{
                 }
             });
         }
-
-
             public JPanel getPanel() {
                 return tabConsignorsJPanel;
             }
-
 
         }
 
