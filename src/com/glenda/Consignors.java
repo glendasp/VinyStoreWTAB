@@ -104,16 +104,19 @@ public class Consignors extends JFrame{
                 DBManager.loadAllConsignors();
                 ConsignorModel cmNew = DBManager.consignorModel;
 
+                //This is the code you had, I un-commented it
+                if (currentRow == -1) {      // -1 means no row is selected. Display error message.
+                    JOptionPane.showMessageDialog(rootPane, "Please choose a consignor to delete");
+                }
+                boolean deleted = ConsignorModel.deleteRow(currentRow);
+                if (deleted) {
+                    DBManager.loadAllConsignors();
 
-//                if (currentRow == -1) {      // -1 means no row is selected. Display error message.
-//                    JOptionPane.showMessageDialog(rootPane, "Please choose a consignor to delete");
-//                }
-//                boolean deleted = ConsignorModel.deleteRow(currentRow);
-//                if (deleted) {
-//                    DBManager.loadAllConsignors();
-//                } else {
-//                    JOptionPane.showMessageDialog(rootPane, "Error deleting");
-//                }
+                    //I added this line. It tells the JTable's model to update; then you'll see the consigner being deleted.
+                    ((ConsignorModel)ConsignorTable.getModel()).fireTableDataChanged();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Error deleting");
+                }
                 }
             });
         }
