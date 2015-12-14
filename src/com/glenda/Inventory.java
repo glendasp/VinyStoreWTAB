@@ -44,9 +44,10 @@ public class Inventory extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
 
-                DBManager.addInventory(textFieldRecordTitle.getText(),textFieldArtistName.getText(), Date.valueOf(textFieldData.getText()));
-                //fazer validação antes de imprimir mensagem
+                DBManager.addInventory(textFieldRecordTitle.getText(),textFieldArtistName.getText(),
+                        Date.valueOf(textFieldData.getText()), comboBoxLocation.getSelectedItem().toString());
 
+                //fazer validação antes de imprimir mensagem <-- Falta fazer
                 JOptionPane.showMessageDialog(tabInventoryPanel, "New Inventory added successfully!");
                 //ResultSet rs = DBManager.Statement.executeQuery(getAllData);
                 //DBManager.consignorModel.updateResultSet(rs);
@@ -59,7 +60,6 @@ public class Inventory extends JFrame {
                 //pack
                 pack();
                 System.out.println("Row was added - I did it!!!!!!!!YAY :)");
-
             }
 
 
@@ -102,9 +102,14 @@ public class Inventory extends JFrame {
         comboBoxSelectConsignor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DBManager.loadAllInventory();// SELECT Name FROM Store.Consignor
+                DBManager.loadAllInventory();// SELECT Name FROM Store.Inventory
+
+                comboBoxSelectConsignor.getSelectedItem();
+               // DBManager.loadAllInventory(SELECT C.Name FROM Inventory I join Consignor C on I.RecordID = C.ConsignorsID);
+
             }
         });
+
     }
     public JPanel getPanel() {
         return tabInventoryPanel;

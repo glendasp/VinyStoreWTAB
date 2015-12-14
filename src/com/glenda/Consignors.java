@@ -65,7 +65,8 @@ public class Consignors extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                DBManager.addConsignor(textFieldName.getText(),textFieldPhoneNumber.getText(),textFieldAddress.getText(),textFieldZipCode.getText(), textFieldCity.getText(), (String) comboBoxState.getSelectedItem(), textFieldAmountPaid.getColumns());//amountPaidLabel()
+                DBManager.addConsignor(textFieldName.getText(),textFieldPhoneNumber.getText(),textFieldAddress.getText(),textFieldZipCode.getText(), textFieldCity.getText(),
+                        (String) comboBoxState.getSelectedItem(), textFieldAmountPaid.getColumns());//amountPaidLabel()
 
                 //fazer validação antes de imprimir mensagem
                 JOptionPane.showMessageDialog(tabConsignorsJPanel, "New consignor was successfully saved!");
@@ -110,7 +111,6 @@ public class Consignors extends JFrame{
                 boolean deleted = ConsignorModel.deleteRow(currentRow);
                 if (deleted) {
                     DBManager.loadAllConsignors();
-
                     //I added this line. It tells the JTable's model to update; then you'll see the consigner being deleted.
                     ((ConsignorModel)ConsignorTable.getModel()).fireTableDataChanged();
                 } else {

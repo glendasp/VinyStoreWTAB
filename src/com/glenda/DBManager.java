@@ -1,4 +1,5 @@
 package com.glenda;
+import javax.swing.*;
 import java.sql.*;
 
 /**
@@ -19,9 +20,12 @@ public class DBManager {
     static ResultSet inventoryResult = null;
     static Statement invState = null;
 
+    static ResultSet seleResult = null;
+    static Statement saleState = null;
+
     static ConsignorModel consignorModel = null;
     static InventoryModel inventoryModel = null;
-
+    static SalesModel salesModel = null;
 
 
     public static boolean setup() {
@@ -31,9 +35,9 @@ public class DBManager {
             Connection = DriverManager.getConnection(DB_CONNECTION_URL, USER, PASSWORD);//Create a connection to DB
             Statement = Connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             invState = Connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        }catch (ClassNotFoundException cfe){
+        } catch (ClassNotFoundException cfe) {
             System.out.println(cfe);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e);
         }
@@ -56,52 +60,71 @@ public class DBManager {
                     "RecordTitle VARCHAR(45) NULL, " +
                     "ArtistNAme VARCHAR(45) NULL, " +
                     "DateRecieved DATE NULL, " +
-                    "PRIMARY KEY (RecordID), " +
-                    "UNIQUE INDEX RecordID_UNIQUE (RecordID ASC))";
+                    "PRIMARY KEY (RecordID))"; // "Location VARCHAR(10)"+
             Statement.executeUpdate(createInventoryTable);
+
+//            String createSalesTable = "CREATE TABLE IF NOT EXISTS Sales" +
+//                    "(Sales INT NOT NULL AUTO_INCREMENT," +
+//                    "PriceSold DECIMAL(6,2) NULL,+" +
+//                    "Date Date NULL)";
+//            Statement.executeUpdate(createSalesTable);
+
 
             loadAllInventory();
 
+
             return true;
 
-        //Imprime um mensagem com o erro que foi gerado caso gere erro sqlexception
+            //Imprime um mensagem com o erro que foi gerado caso gere erro sqlexception
         } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }
         return false;
     }
 
-    //Create or recreate a ResultSet containing the whole database
-    public static boolean loadAllConsignors(){
+    //Populando o Jbox com nome dos consignors
+    public static void loadConsignorsInventoryTab(JComboBox ConsignorsBox) {
 
-        try{
+        //ArrayList<String> NameConsigonrs = new ArrayList<String>();
 
-            if (rs!=null) {
+        String getConsignor = "SELECT Consignors.Name FROM Consignor";
+
+        try {
+            if (rs != null) {
                 rs.close();
             }
+            rs = Statement.executeQuery(getConsignor);
 
-            String getAllData = "SELECT * FROM Consignor";
-
-            rs = Statement.executeQuery(getAllData);
-
-            if (consignorModel == null) {
-                //If no current movieDataModel, then make one
-                consignorModel = new ConsignorModel(rs);
-            } else {
-                //Or, if one already exists, update its ResultSet
-                consignorModel.updateResultSet(rs);
+            while (rs.next()) {
+                //System.out.println(rs.getString(0));
+                ConsignorsBox.addItem(rs.getObject("Name").toString());
             }
+//
+//            if (consignorModel == null) {
+//                //If no current movieDataModel, then make one
+//                consignorModel = new ConsignorModel(rs);
+//            } else {
+//                DBManager.addConsignor("name", "phone", "ZipCode", "hfc", "fc", "hf", 2);
+//                PreparedStatement psInsert = Connection.prepareStatement(getConsignor);
+//
+//                //Or, if one already exists, update its ResultSet
+//                consignorModel.updateResultSet(rs);
+//            }
 
-            return true;
+            //return NameConsigonrs;
 
         } catch (Exception e) {
             System.out.println("Error loading or reloading consignors");
             System.out.println(e);
             e.printStackTrace();
-            return false;
+            //return false;
         }
 
     }
+
+
+    // **** Get from user and sends to the database ****
+    // addConsignor / addInventry / addSales
 
     public static boolean addConsignor(String name, String phone, String address, String ZipCode, String city, String State, float AmountPaid){
 
@@ -127,36 +150,7 @@ public class DBManager {
         return false;
     }
 
-    public static boolean loadAllInventory(){
-
-        try{
-
-            if (inventoryResult!=null) {
-                inventoryResult.close();
-            }
-
-            String getAllData = "SELECT * FROM Inventory";
-            inventoryResult = invState.executeQuery(getAllData);
-
-            if (inventoryModel == null) {
-                //If no current movieDataModel, then make one
-                inventoryModel = new InventoryModel(inventoryResult);
-            } else {
-                //Or, if one already exists, update its ResultSet
-                inventoryModel.updateResultSet(inventoryResult);
-            }
-
-            return true;
-
-        } catch (Exception e) {
-            System.out.println("Error loading or reloading inventory");
-            System.out.println(e);
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-    public static boolean addInventory(String record, String artist, Date date){
+    public static boolean addInventory(String record, String artist, Date date, String selectedItem){
 
         try{
             String newInventorySQLString = "INSERT INTO Inventory (RecordTitle, ArtistName, DateRecieved) VALUES (?,?, ?)";
@@ -189,5 +183,103 @@ public class DBManager {
         }
 
     }
+
+
+
+
+    // ****  Create or recreate a ResultSet containing the whole database
+    // loadAllConsignors / loadAllInventory
+    public static boolean loadAllConsignors(){
+
+        try{
+
+            if (rs!=null) {
+                rs.close();
+            }
+
+            String getAllData = "SELECT * FROM Consignor";
+
+            rs = Statement.executeQuery(getAllData);
+
+            if (consignorModel == null) {
+                //If no current consignorModel, then make one
+                consignorModel = new ConsignorModel(rs);
+            } else {
+                //Or, if one already exists, update its ResultSet
+                consignorModel.updateResultSet(rs);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading consignors");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
+    public static boolean loadAllInventory(){
+
+        try{
+            if (inventoryResult!=null) {
+                inventoryResult.close();
+            }
+
+            String getAllData = "SELECT * FROM Inventory";
+            inventoryResult = invState.executeQuery(getAllData);
+
+            if (inventoryModel == null) {
+                //If no current inventoryModel, then make one
+                inventoryModel = new InventoryModel(inventoryResult);
+            } else {
+                //Or, if one already exists, update its ResultSet
+                inventoryModel.updateResultSet(inventoryResult);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading inventory");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
+    public static boolean loadAllRecordToSell(){
+
+        try{
+            if (seleResult!=null) {
+                seleResult.close();
+            }
+
+            String getAllData = "SELECT * FROM Inventory";
+            seleResult = invState.executeQuery(getAllData);
+
+            if (inventoryModel == null) {
+                //If no current salemodel, then make one
+                inventoryModel = new InventoryModel(inventoryResult);
+            } else {
+                //Or, if one already exists, update its ResultSet
+                inventoryModel.updateResultSet(seleResult);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error loading or reloading inventory");
+            System.out.println(e);
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
 
 }
