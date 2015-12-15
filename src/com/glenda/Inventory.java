@@ -30,7 +30,7 @@ public class Inventory extends JFrame {
         //pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(false);
-        setTitle(" Database Inventory");
+        //setTitle(" Database Inventory");
         DBManager.setup();
         InventoryTable.setModel(im); // I don't know why I have to comment this line to run
         //Set up JTable
@@ -98,14 +98,18 @@ public class Inventory extends JFrame {
             }
         });
 
-
+        //Trying to populate my combobox with consignors name
         comboBoxSelectConsignor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DBManager.loadAllInventory();// SELECT Name FROM Store.Inventory
 
-                comboBoxSelectConsignor.getSelectedItem();
-               // DBManager.loadAllInventory(SELECT C.Name FROM Inventory I join Consignor C on I.RecordID = C.ConsignorsID);
+//                comboBoxSelectConsignor.getSelectedItem();
+//               // DBManager.loadAllInventory(SELECT C.Name FROM Inventory I join Consignor C on I.RecordID = C.ConsignorsID);
+//
+//              // for (Object id : KeySet){
+//                comboBoxSelectConsignor.addItem(DBManager.loadAllInventory(SELECT Name FROM Store.Inventory));
+//              //  }
 
             }
         });

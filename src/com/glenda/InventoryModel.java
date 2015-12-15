@@ -7,6 +7,10 @@ import java.sql.SQLException;
 /**
  * Created by glendex on 12/12/15.
  */
+
+//Code was copied from MovieRating and edited
+
+
 public class InventoryModel extends AbstractTableModel {
 
         private int rowCount = 0;

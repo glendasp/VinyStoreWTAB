@@ -4,6 +4,7 @@ package com.glenda;
  * Created by glendex on 12/10/15.
  */
 
+//Code was copied from MovieRating and edited
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSet;

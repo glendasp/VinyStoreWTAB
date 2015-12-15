@@ -49,7 +49,7 @@ public class Consignors extends JFrame{
                 (new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //Get Movie title, make sure it's not blank
+                        //Get Consignor name, make sure it's not blank
                         String textFieldNameText = textFieldName.getText();
 
                         if (textFieldName == null || textFieldName.equals("")) {
@@ -88,6 +88,8 @@ public class Consignors extends JFrame{
 
         });
 
+
+
         //Fecha a tela e finaliza o progama - Nada para adicionar aqui ou alterar
         quitButton.addActionListener(new ActionListener() {
             @Override
@@ -95,6 +97,8 @@ public class Consignors extends JFrame{
                     System.exit(0);
             }
         });
+
+
 
         deleteButton.addActionListener(new ActionListener() {
             @Override

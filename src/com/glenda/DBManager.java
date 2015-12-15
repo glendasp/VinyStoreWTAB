@@ -71,6 +71,7 @@ public class DBManager {
 
 
             loadAllInventory();
+            loadAllSold();
 
 
             return true;
@@ -84,8 +85,6 @@ public class DBManager {
 
     //Populando o Jbox com nome dos consignors
     public static void loadConsignorsInventoryTab(JComboBox ConsignorsBox) {
-
-        //ArrayList<String> NameConsigonrs = new ArrayList<String>();
 
         String getConsignor = "SELECT Consignors.Name FROM Consignor";
 
@@ -251,28 +250,28 @@ public class DBManager {
     }
 
 
-    public static boolean loadAllRecordToSell(){
+    public static boolean loadAllSold(){
 
         try{
             if (seleResult!=null) {
                 seleResult.close();
             }
 
-            String getAllData = "SELECT * FROM Inventory";
-            seleResult = invState.executeQuery(getAllData);
+            String getAllData = "SELECT * FROM Sales";
+            seleResult = saleState.executeQuery(getAllData);
 
-            if (inventoryModel == null) {
+            if (salesModel == null) {
                 //If no current salemodel, then make one
-                inventoryModel = new InventoryModel(inventoryResult);
+                salesModel = new SalesModel(seleResult);
             } else {
                 //Or, if one already exists, update its ResultSet
-                inventoryModel.updateResultSet(seleResult);
+                salesModel.updateResultSet(seleResult);
             }
 
             return true;
 
         } catch (Exception e) {
-            System.out.println("Error loading or reloading inventory");
+            System.out.println("Error loading or reloading sale table");
             System.out.println(e);
             e.printStackTrace();
             return false;

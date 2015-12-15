@@ -7,6 +7,10 @@ import java.sql.SQLException;
 /**
  * Created by glendex on 12/14/15.
  */
+
+
+//Code was copied from MovieRating and edited
+
 public class SalesModel extends AbstractTableModel {
 
         private int rowCount = 0;
@@ -58,7 +62,7 @@ public class SalesModel extends AbstractTableModel {
         @Override
         public int getRowCount() {
             countRows();
-            System.out.println(rowCount);
+            //System.out.println(rowCount);
             return rowCount;
         }
 
@@ -73,7 +77,6 @@ public class SalesModel extends AbstractTableModel {
                 //System.out.println("get value at, row = " +row);
                 resultSet.absolute(row+1);
                 Object o = resultSet.getObject(col+1);
-                System.out.println(o);
                 if(o == null) {
                     return "";
                 } else {
@@ -87,19 +90,19 @@ public class SalesModel extends AbstractTableModel {
             }
         }
 
-        //Delete row, return true if successful, false otherwise
-        public static boolean deleteRow(int row){
-            try {
-                resultSet.absolute(row + 1);
-                resultSet.deleteRow();
-                //Tell table to redraw itself
-                //fireTableDataChanged();
-                return true;
-            }catch (SQLException se) {
-                System.out.println("Delete row error " + se);
-                return false;
-            }
-        }
+//        //Delete row, return true if successful, false otherwise
+//        public static boolean deleteRow(int row){
+//            try {
+//                resultSet.absolute(row + 1);
+//                resultSet.deleteRow();
+//                //Tell table to redraw itself
+//                //fireTableDataChanged();
+//                return true;
+//            }catch (SQLException se) {
+//                System.out.println("Delete row error " + se);
+//                return false;
+//            }
+//        }
 
 //        //returns true if successful, false if error occurs
 //        public boolean insertRow(String name, int year, int rating) {
