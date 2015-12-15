@@ -21,7 +21,7 @@ public class Form extends JFrame {
         //Create a JTabbedPanel, add to JPanel, add tabs to JTabbedPane.
         tabbedPane = new JTabbedPane();
         rootPanel.add(tabbedPane);
-        setTitle("Store Registration App");
+        setTitle("Store Registration App");//titulo da tela
         tabbedPane.add("Consignors", new Consignors(DBManager.consignorModel).getPanel());
         tabbedPane.add("Inventory", new Inventory(DBManager.inventoryModel).getPanel());
         tabbedPane.add("Sales", new Sales(DBManager.salesModel).getPanel());

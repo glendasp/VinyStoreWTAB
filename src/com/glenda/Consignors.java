@@ -99,7 +99,7 @@ public class Consignors extends JFrame{
         });
 
 
-
+        //Ao clicar a linha selecionada é excluida do banco de dados
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
