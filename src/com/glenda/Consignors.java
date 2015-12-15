@@ -45,19 +45,19 @@ public class Consignors extends JFrame{
         pack();
 
         //Event handlers for add, delete and quit buttons
-        saveButton.addActionListener
-                (new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        //Get Consignor name, make sure it's not blank
-                        String textFieldNameText = textFieldName.getText();
-
-                        if (textFieldName == null || textFieldName.equals("")) {
-                            JOptionPane.showMessageDialog(rootPane, "Please enter a Name");
-                            return;
-                        }
-                    }
-                });
+//        saveButton.addActionListener
+//                (new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        //Get Consignor name, make sure it's not blank
+//                        String textFieldNameText = textFieldName.getText();
+//
+//                        if (textFieldName == null || textFieldName.equals("")) {
+//                            JOptionPane.showMessageDialog(rootPane, "Please enter a Name");
+//                            return;
+//                        }
+//                    }
+//                });
 
 
         //Configurando botão SaveNewConsignor para enviar novo cdastro para a DB.

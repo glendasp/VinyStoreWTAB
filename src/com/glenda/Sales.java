@@ -132,10 +132,10 @@ public class Sales extends JFrame{
                 super.componentResized(e);
                 int currentRow = SaleTable.getSelectedRow();
                // DBManager.salesModel.fireTableCellUpdated(l);
-                DBManager.loadAllSold();
+//                DBManager.loadAllSold();
                 SalesModel sellNew = DBManager.salesModel;
                 //assign it to the table
-                SaleTable.setModel(sellNew);
+                //SaleTable.setModel(sellNew);
                 pack();
             }
         });

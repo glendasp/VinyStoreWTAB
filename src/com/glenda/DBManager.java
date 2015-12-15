@@ -71,7 +71,7 @@ public class DBManager {
 
 
             loadAllInventory();
-            loadAllSold();
+//            loadAllSold();
 
 
             return true;
